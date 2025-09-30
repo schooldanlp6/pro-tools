@@ -19,7 +19,7 @@ if [ $# -eq 0 ]; then
     echo "  ./pro                  # Show this help and list available tools"
     echo "  ./pro <tool>           # Execute a tool with default config"
     echo "  ./pro <tool> --help    # Execute a tool with help"
-    echo "Author: Daniel Alvir"
+    echo "Author: DanLP6"
     echo ""
     list_tools
     exit 0
