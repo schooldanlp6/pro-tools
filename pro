@@ -1,4 +1,5 @@
 #!/bin/bash
+#!/usr/bin/env bash
 
 TOOLS_DIR="./tools/"
 TOOLS_DIR_PRETTY="./tools"
