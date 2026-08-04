@@ -29,6 +29,7 @@ if [ $# -eq 0 ]; then
 fi
 
 if [ "$1" == init ]; then
+   mkdir $TOOLS_DIR
    for tool in "$TOOLS_DIR"./*; do
       chmod +x $tool
    done
