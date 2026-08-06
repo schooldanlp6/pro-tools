@@ -7,4 +7,6 @@ You have to run install.sh as root user then every tools folder will work with t
 # Here you have some usage examples in tools but should be changed for actual prod
 -> ./tools
 
+# Information
 you also have to put the tools in the tools folder as a dev else the tools will not be reconginzed by pro
+run ``pro init`` everytime you added a new tool in the ``$TOOL_DIR``.

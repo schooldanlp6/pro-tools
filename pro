@@ -8,6 +8,7 @@ TOOLS_DIR_PRETTY="./tools"
 list_tools() {
     echo "Available tools:"
     echo "  - init (builtin tool command)"
+    echo "  - init-dir (builtin tool command - initializes tools dir and creates sample entries)"
     for tool in "$TOOLS_DIR"./*; do
         if [[ -x "$tool" && -f "$tool" ]]; then
             echo "  - $(basename "$tool")"
@@ -29,7 +30,19 @@ if [ $# -eq 0 ]; then
 fi
 
 if [ "$1" == init ]; then
+   for tool in "$TOOLS_DIR"./*; do
+      chmod +x $tool
+   done
+fi
+
+if [ "$1" == init-dir ]; then
    mkdir $TOOLS_DIR
+   cd $TOOLS_DIR
+   touch build
+   touch compile
+   touch build-release
+   cd ..
+   echo "added temlates"
    for tool in "$TOOLS_DIR"./*; do
       chmod +x $tool
    done
@@ -46,6 +59,10 @@ if [[ -x "$TOOL_PATH" && -f "$TOOL_PATH" ]]; then
     "$TOOL_PATH" "$TOOL_ARGS" "$@"
 else
     if [ "$TOOL_NAME" == init ]; then
+        echo ""
+        list_tools
+        exit 0
+    elif [ "$TOOL_NAME" == init-dir ]; then
         echo ""
         list_tools
         exit 0
