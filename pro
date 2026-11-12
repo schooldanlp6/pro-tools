@@ -1,6 +1,7 @@
 #!/bin/bash
 #!/usr/bin/env bash
 
+PRO_VERSION="0.6.0"
 TOOLS_DIR="./tools/"
 TOOLS_DIR_PRETTY="./tools"
 
@@ -9,6 +10,7 @@ list_tools() {
     echo "Available tools:"
     echo "  - init (builtin tool command)"
     echo "  - init-dir (builtin tool command - initializes tools dir and creates sample entries)"
+    echo "  - bundle (builtin tool command)"
     for tool in "$TOOLS_DIR"./*; do
         if [[ -x "$tool" && -f "$tool" ]]; then
             echo "  - $(basename "$tool")"
@@ -23,6 +25,7 @@ if [ $# -eq 0 ]; then
     echo "  ./pro                  # Show this help and list available tools"
     echo "  ./pro <tool>           # Execute a tool with default config"
     echo "  ./pro <tool> --help    # Execute a tool with help"
+    echo "  ./pro bundle           # Copy the pro executable into the current repo"
     echo "Author: DanLP6"
     echo ""
     list_tools
@@ -46,6 +49,25 @@ if [ "$1" == init-dir ]; then
    for tool in "$TOOLS_DIR"./*; do
       chmod +x $tool
    done
+fi
+
+if [ "$1" == bundle ]; then
+    PRO_SRC="$(readlink -f "${BASH_SOURCE[0]}")"
+    if [ -e ./pro ]; then
+        # Copies without a PRO_VERSION line predate versioning and count as outdated
+        BUNDLED_VERSION="$(grep -m1 '^PRO_VERSION=' ./pro | cut -d'"' -f2)"
+        BUNDLED_VERSION="${BUNDLED_VERSION:-0}"
+        NEWEST="$(printf '%s\n%s\n' "$BUNDLED_VERSION" "$PRO_VERSION" | sort -V | tail -n1)"
+        if [ "$BUNDLED_VERSION" == "$NEWEST" ]; then
+            echo "pro in $(pwd) is up to date ($BUNDLED_VERSION), skipping."
+            exit 0
+        fi
+        echo "Updating pro in $(pwd) from $BUNDLED_VERSION to $PRO_VERSION"
+    fi
+    cp "$PRO_SRC" ./pro
+    chmod +x ./pro
+    echo "Bundled pro into $(pwd)/pro"
+    exit 0
 fi
 
 # Extract tool name and shift to pass remaining args
