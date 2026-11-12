@@ -27,6 +27,7 @@ if [ $# -eq 0 ]; then
     echo "  ./pro <tool> --help    # Execute a tool with help"
     echo "  ./pro bundle           # Copy the pro executable into the current repo"
     echo "Author: DanLP6"
+    echo "Version: "$PRO_VERSION
     echo ""
     list_tools
     exit 0
